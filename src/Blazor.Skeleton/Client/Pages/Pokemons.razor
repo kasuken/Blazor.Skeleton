@@ -1,0 +1,41 @@
+﻿@page "/pokemons"
+@using Blazor.Skeleton.Client.Services.PokemonService
+@using Blazor.Skeleton.Shared
+
+@inject IPokemonService IPokemonService
+
+<PageTitle>Pokemons</PageTitle>
+
+<h1>Pokemons</h1>
+
+@if (IPokemonService.Pokemons == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pokemon in IPokemonService.Pokemons)
+            {
+                <tr>
+                    <td>@pokemon.Id</td>
+                    <td>@pokemon.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await IPokemonService.GetAllPokemons();
+    }
+}
